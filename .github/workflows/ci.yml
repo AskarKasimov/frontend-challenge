@@ -1,68 +1,74 @@
 name: CI + Deploy to GitHub Pages
 
 on:
-    push:
-        branches: ["master", "dev"]
-    pull_request:
-        branches: ["master", "dev"]
+  push:
+    branches: ["master", "dev"]
+  pull_request:
+    branches: ["master", "dev"]
 
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-    ci:
-        runs-on: ubuntu-latest
+  ci:
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v6
+    steps:
+      - uses: actions/checkout@v6
 
-            - name: Use Node.js 22.x
-              uses: actions/setup-node@v6
-              with:
-                  node-version: 22.x
-                  cache: yarn
-                  cache-dependency-path: ./catty-frontend/yarn.lock
+      - name: Use Node.js 25.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 25.x
+          cache: yarn
+          cache-dependency-path: ./catty-frontend/yarn.lock
 
-            - name: Install dependencies
-              run: yarn install --frozen-lockfile
-              working-directory: ./catty-frontend
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: ./catty-frontend
 
-            - name: Run lint
-              run: yarn lint
-              working-directory: ./catty-frontend
+      - name: Run lint
+        run: yarn lint
+        working-directory: ./catty-frontend
 
-            - name: Build
-              run: yarn build
-              working-directory: ./catty-frontend
+      - name: Generate Tanstack Router
+        run: yarn gen
+        working-directory: ./catty-frontend
 
-            - name: Upload build artifact
-              uses: actions/upload-artifact@v7
-              with:
-                  name: frontend-build
-                  path: ./catty-frontend/dist
+      - name: Build
+        run: yarn build
+        working-directory: ./catty-frontend
+        env:
+          VITE_BASE_PATH: /frontend-challenge/
 
-    deploy:
-        needs: ci
-        if: github.ref == 'refs/heads/master'
-        runs-on: ubuntu-latest
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: frontend-build
+          path: ./catty-frontend/dist
 
-        steps:
-            - name: Download build artifact
-              uses: actions/download-artifact@v7
-              with:
-                  name: frontend-build
-                  path: ./dist
+  deploy:
+    needs: ci
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
 
-            - name: Configure GitHub Pages
-              uses: actions/configure-pages@v6
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: frontend-build
+          path: ./dist
 
-            - name: Upload Pages artifact
-              uses: actions/upload-pages-artifact@v4
-              with:
-                  path: ./dist
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
 
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
