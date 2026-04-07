@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./App.module.css";
+import styles from "./App.module.scss";
 import heroImg from "./assets/hero.png";
 import ReactLogo from "./assets/react.svg?react";
 import ViteLogo from "./assets/vite.svg?react";
