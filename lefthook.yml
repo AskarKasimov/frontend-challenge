@@ -8,5 +8,5 @@ pre-commit:
       stage_fixed: true
     typecheck:
       root: catty-frontend
-      run: npx tsc --noEmit
+      run: yarn typecheck
       stage_fixed: false
