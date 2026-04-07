@@ -13,5 +13,5 @@ export default defineConfig({
       },
     }),
   ],
-  base: "/frontend-challenge/",
+  base: process.env.VITE_BASE_PATH || "",
 });
