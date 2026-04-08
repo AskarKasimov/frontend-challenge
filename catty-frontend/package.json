@@ -8,8 +8,10 @@
     "build": "tsc -b && vite build",
     "gen": "tsr generate",
     "typecheck": "tsc --noEmit",
-    "lint": "biome check .",
-    "lint:fix": "biome check . --write",
+    "lint": "biome check . && stylelint '**/*.{css,scss}'",
+    "lint:fix": "biome check --write --no-errors-on-unmatched . && stylelint --fix '**/*.{css,scss}'",
+    "lint:staged": "lint-staged --config .lintstagedrc.json",
+    "lint:staged:fix": "lint-staged --config .lintstagedrc.fix.json",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -27,7 +29,11 @@
     "@vitejs/plugin-react": "^6.0.1",
     "globals": "^17.4.0",
     "lefthook": "^2.1.5",
+    "lint-staged": "^16.4.0",
     "sass-embedded": "^1.99.0",
+    "stylelint": "^17.6.0",
+    "stylelint-config-idiomatic-order": "^10.0.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~6.0.2",
     "vite": "^8.0.4",
     "vite-plugin-svgr": "^5.2.0"

@@ -4,7 +4,7 @@ pre-commit:
     biome:
       root: catty-frontend
       glob: "**/*.{js,ts,jsx,tsx,json}"
-      run: yarn lint {staged_files}
+      run: yarn lint:staged
       stage_fixed: true
     typecheck:
       root: catty-frontend
