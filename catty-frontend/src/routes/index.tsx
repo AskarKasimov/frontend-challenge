@@ -10,6 +10,7 @@ const SAMPLE_IMAGES = [
   "https://cdn2.thecatapi.com/images/984.jpg",
   "https://cdn2.thecatapi.com/images/984.jpg",
   "https://cdn2.thecatapi.com/images/984.jpg",
+  "https://cdn2.thecatapi.com/images/984.jpg",
 ];
 
 function Index() {
