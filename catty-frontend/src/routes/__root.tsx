@@ -4,8 +4,9 @@ import {
   useNavigate,
   useRouterState,
 } from "@tanstack/react-router";
+import { Header } from "@/components/Header/Header";
 import { MainLayout } from "@/components/MainLayout/MainLayout.tsx";
-import { Header, Tab, Tabs } from "@/ui/index.ts";
+import { Tab, Tabs } from "@/ui/index.ts";
 
 import "./index.scss";
 
