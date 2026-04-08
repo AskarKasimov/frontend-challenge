@@ -1,0 +1,15 @@
+.header {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  background-color: var(--ui-primary);
+  box-shadow: var(--ui-shadow);
+}
+
+.container {
+  display: flex;
+  max-width: 1440px;
+  align-items: center;
+  padding: 0 40px;
+  margin: 0 auto;
+}

@@ -1,0 +1,21 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+
+  > * {
+    max-width: 100%;
+    flex: 0 1 225px;
+  }
+}
+
+@media (width <= 768px) {
+  .grid {
+    gap: 24px;
+
+    > * {
+      flex: 1 1 150px;
+    }
+  }
+}
+
