@@ -10,7 +10,8 @@ export const useCatsQuery = (
     initialPageParam: 0,
     queryFn: ({ pageParam }) => repository.getAllCats(pageParam, limit),
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === limit ? allPages.length : undefined;
+      return lastPage.length > 0 ? allPages.length : undefined;
+      // return lastPage.length === limit ? allPages.length : undefined;
     },
   });
 };
