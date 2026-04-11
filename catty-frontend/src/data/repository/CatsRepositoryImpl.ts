@@ -1,3 +1,4 @@
+import type { CatImageDto } from "@/data/dto/CatImageDto.ts";
 import type { CatImage } from "@/domain/model/CatImage.ts";
 import type { ICatsRepository } from "@/domain/repository/CatsRepository.ts";
 import { API_KEY, API_URL, STORAGE_KEY } from "@/shared/consts.ts";
@@ -18,7 +19,7 @@ export class CatsRepositoryImpl implements ICatsRepository {
       throw new Error(`Failed to fetch cats: ${response.statusText}`);
     }
 
-    const data: Array<{ id: string; url: string }> = await response.json();
+    const data: Array<CatImageDto> = await response.json();
 
     const favoriteData = localStorage.getItem(STORAGE_KEY);
     const favoriteMap = favoriteData ? JSON.parse(favoriteData) : {};
