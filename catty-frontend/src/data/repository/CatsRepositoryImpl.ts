@@ -1,6 +1,6 @@
 import type { CatImage } from "@/domain/model/CatImage.ts";
 import type { ICatsRepository } from "@/domain/repository/CatsRepository.ts";
-import { API_KEY, API_URL } from "@/shared/consts.ts";
+import { API_KEY, API_URL, STORAGE_KEY } from "@/shared/consts.ts";
 
 export class CatsRepositoryImpl implements ICatsRepository {
   async getAllCats(page: number, limit: number): Promise<CatImage[]> {
@@ -20,7 +20,7 @@ export class CatsRepositoryImpl implements ICatsRepository {
 
     const data: Array<{ id: string; url: string }> = await response.json();
 
-    const favoriteData = localStorage.getItem("favorite-cats-keys");
+    const favoriteData = localStorage.getItem(STORAGE_KEY);
     const favoriteMap = favoriteData ? JSON.parse(favoriteData) : {};
 
     return data.map((item) => ({

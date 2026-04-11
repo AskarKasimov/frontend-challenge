@@ -1,7 +1,6 @@
 import type { CatImage } from "@/domain/model/CatImage";
+import { STORAGE_KEY } from "@/shared/consts";
 import type { IFavoritesRepository } from "../../domain/repository/FavoritesRepository";
-
-const STORAGE_KEY = "favorite-cats-keys";
 
 export class FavoritesLocalStorageRepository implements IFavoritesRepository {
   private getStorage(): Record<string, CatImage> {
