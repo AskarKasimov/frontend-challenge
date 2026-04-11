@@ -7,7 +7,7 @@ const MOCK_CATS: CatImage[] = Array.from({ length: 50 }).map((_, i) => ({
   isFavorite: false,
 }));
 
-export class MockCatsRepository implements ICatsRepository {
+export class CatsRepositoryMock implements ICatsRepository {
   async getAllCats(page: number, limit: number): Promise<CatImage[]> {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
