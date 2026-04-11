@@ -3,6 +3,15 @@ WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
 RUN yarn install --frozen-lockfile
+
+ARG VITE_API_URL
+ARG VITE_API_KEY
+ARG VITE_BASE_PATH
+
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_API_KEY=$VITE_API_KEY
+ENV VITE_BASE_PATH=$VITE_BASE_PATH
+
 COPY . .
 RUN yarn build
 
