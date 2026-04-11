@@ -33,6 +33,10 @@ jobs:
         run: yarn lint
         working-directory: ./catty-frontend
 
+      - name: Run tests
+        run: yarn test
+        working-directory: ./catty-frontend
+
       - name: Generate Tanstack Router
         run: yarn gen
         working-directory: ./catty-frontend
