@@ -1,17 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import HeartSvg from "@/assets/heart.svg?react";
-import { FavoritesLocalStorageRepository } from "@/data/repository/FavoritesLocalStorageRepository";
-import { MockCatsRepository } from "@/data/repository/MockCatsRepository";
+import { useRepositories } from "@/shared/di/repositoryDI";
 import { useCatsQuery } from "@/state/useCatsInfiniteQuery";
 import { useFavoriteMutation } from "@/state/useFavoriteMutation";
 import { Card, Grid } from "@/ui/index.ts";
 
 export const Route = createFileRoute("/")({ component: Index });
-const catsRepository = new MockCatsRepository();
-const favoritesRepository = new FavoritesLocalStorageRepository();
 
 function Index() {
+  const { catsRepository, favoritesRepository } = useRepositories();
+
   const {
     data,
     isLoading,
@@ -19,28 +18,30 @@ function Index() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useCatsQuery(catsRepository, 20);
+  } = useCatsQuery(catsRepository, favoritesRepository, 15);
 
   const { mutate: toggleFavorite } = useFavoriteMutation(favoritesRepository);
 
-  const observerTarget = useRef<HTMLDivElement | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1.0 },
-    );
+  const observerTarget = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isFetchingNextPage) return;
+      if (observer.current) observer.current.disconnect();
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && hasNextPage) {
+            fetchNextPage();
+          }
+        },
+        { rootMargin: "100px" },
+      );
 
-    return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+      if (node) observer.current.observe(node);
+    },
+    [isFetchingNextPage, hasNextPage, fetchNextPage],
+  );
 
   if (isLoading) return <div>Загрузка...</div>;
   if (isError) return <div>Произошла ошибка при загрузке котиков</div>;

@@ -1,8 +1,10 @@
 import type { CatImage } from "@/domain/model/CatImage";
+import { STORAGE_KEY } from "@/shared/consts";
 import type { IFavoritesRepository } from "../../domain/repository/FavoritesRepository";
 
-const STORAGE_KEY = "favorite-cats-keys";
-
+// осознанно не использую отдельный dto для локалки.
+// плодить лишние мапперы и модели для базового
+// хранилища было бы реально оверинжинирингово
 export class FavoritesLocalStorageRepository implements IFavoritesRepository {
   private getStorage(): Record<string, CatImage> {
     const data = localStorage.getItem(STORAGE_KEY);
@@ -22,6 +24,11 @@ export class FavoritesLocalStorageRepository implements IFavoritesRepository {
     const end = start + limit;
 
     return values.slice(start, end);
+  }
+
+  async checkFavorites(catIds: string[]): Promise<string[]> {
+    const data = this.getStorage();
+    return catIds.filter((id) => !!data[id]);
   }
 
   async addFavoriteCat(cat: CatImage): Promise<void> {

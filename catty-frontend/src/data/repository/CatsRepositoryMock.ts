@@ -1,4 +1,5 @@
 import type { CatImage } from "@/domain/model/CatImage.ts";
+import { STORAGE_KEY } from "@/shared/consts.ts";
 import type { ICatsRepository } from "../../domain/repository/CatsRepository.ts";
 
 const MOCK_CATS: CatImage[] = Array.from({ length: 50 }).map((_, i) => ({
@@ -7,11 +8,11 @@ const MOCK_CATS: CatImage[] = Array.from({ length: 50 }).map((_, i) => ({
   isFavorite: false,
 }));
 
-export class MockCatsRepository implements ICatsRepository {
+export class CatsRepositoryMock implements ICatsRepository {
   async getAllCats(page: number, limit: number): Promise<CatImage[]> {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
-    const favoriteData = localStorage.getItem("favorite-cats-keys");
+    const favoriteData = localStorage.getItem(STORAGE_KEY);
     const favoriteMap = favoriteData ? JSON.parse(favoriteData) : {};
 
     const start = page * limit;

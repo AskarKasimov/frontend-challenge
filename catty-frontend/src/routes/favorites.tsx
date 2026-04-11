@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import HeartSvg from "@/assets/heart.svg?react";
-import { FavoritesLocalStorageRepository } from "@/data/repository/FavoritesLocalStorageRepository";
+import { useRepositories } from "@/shared/di/repositoryDI";
 import { useFavoriteMutation } from "@/state/useFavoriteMutation";
 import { useFavoritesInfiniteQuery } from "@/state/useFavoritesInfiniteQuery";
 import { Card, Grid } from "@/ui/index.ts";
@@ -10,9 +10,9 @@ export const Route = createFileRoute("/favorites")({
   component: FavoritesRoute,
 });
 
-const favoritesRepository = new FavoritesLocalStorageRepository();
-
 function FavoritesRoute() {
+  const { favoritesRepository } = useRepositories();
+
   const {
     data,
     isLoading,

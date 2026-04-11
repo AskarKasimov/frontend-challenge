@@ -1,4 +1,5 @@
 import type React from "react";
+import { useState } from "react";
 import styles from "./Card.module.scss";
 
 type CardProps = {
@@ -14,13 +15,21 @@ export const Card = ({
   isActionPressed = false,
   onActionPressed,
 }: CardProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <div className={styles.card}>
-      <img src={imageUrl} alt="card" className={styles.image} />
+      {!isLoaded && <div className={styles.loader} />}
+      <img
+        src={imageUrl}
+        alt="card"
+        className={`${styles.image} ${isLoaded ? styles.imageLoaded : ""}`}
+        onLoad={() => setIsLoaded(true)}
+      />
       <button
         type="button"
         className={`${styles.actionButton} ${isActionPressed ? styles.actionPressed : ""}`}
-        onClick={onActionPressed}
+        onClick={() => onActionPressed}
       >
         <ActionElement className={styles.icon} />
       </button>
