@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import HeartSvg from "@/assets/heart.svg?react";
 import { useRepositories } from "@/shared/di/repositoryDI";
 import { useCatsQuery } from "@/state/useCatsInfiniteQuery";
@@ -9,6 +10,7 @@ import { Card, Grid } from "@/ui/index.ts";
 export const Route = createFileRoute("/")({ component: Index });
 
 function Index() {
+  const { t } = useTranslation();
   const { catsRepository, favoritesRepository } = useRepositories();
 
   const {
@@ -43,8 +45,8 @@ function Index() {
     [isFetchingNextPage, hasNextPage, fetchNextPage],
   );
 
-  if (isLoading) return <div>Загрузка...</div>;
-  if (isError) return <div>Произошла ошибка при загрузке котиков</div>;
+  if (isLoading) return <div>{t("loading")}</div>;
+  if (isError) return <div>{t("errorLoading")}</div>;
 
   const cats = data?.pages.flat() ?? [];
 
@@ -74,7 +76,7 @@ function Index() {
           marginTop: "20px",
         }}
       >
-        {isFetchingNextPage && <span>... загружаем еще котиков ...</span>}
+        {isFetchingNextPage && <span>{t("loadingMore")}</span>}
       </div>
     </>
   );
