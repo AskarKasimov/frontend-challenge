@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-const resources = {
+export const resources = {
   ru: {
     translation: {
       loading: "Загрузка...",
@@ -12,7 +12,7 @@ const resources = {
       noFavoritesYet: "У вас пока нет любимых котиков :(",
     },
   },
-};
+} as const;
 
 i18n.use(initReactI18next).init({
   resources,
