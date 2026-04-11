@@ -1,7 +1,9 @@
-import type { CatImageDto } from "@/data/dto/CatImageDto.ts";
+import { z } from "zod";
+import { type CatImageDto, CatImageDtoSchema } from "@/data/dto/CatImageDto.ts";
+import { mapCatImageDtoToDomain } from "@/data/mapper/CatImageMapper.ts";
 import type { CatImage } from "@/domain/model/CatImage.ts";
 import type { ICatsRepository } from "@/domain/repository/CatsRepository.ts";
-import { API_KEY, API_URL, STORAGE_KEY } from "@/shared/consts.ts";
+import { API_KEY, API_URL } from "@/shared/consts.ts";
 
 export class CatsRepositoryImpl implements ICatsRepository {
   async getAllCats(page: number, limit: number): Promise<CatImage[]> {
@@ -19,15 +21,11 @@ export class CatsRepositoryImpl implements ICatsRepository {
       throw new Error(`Failed to fetch cats: ${response.statusText}`);
     }
 
-    const data: Array<CatImageDto> = await response.json();
+    const rawData = await response.json();
+    const data: Array<CatImageDto> = z.array(CatImageDtoSchema).parse(rawData);
 
-    const favoriteData = localStorage.getItem(STORAGE_KEY);
-    const favoriteMap = favoriteData ? JSON.parse(favoriteData) : {};
-
-    return data.map((item) => ({
-      id: item.id,
-      url: item.url,
-      isFavorite: !!favoriteMap[item.id],
-    }));
+    // мердж с фаворитами будет в useCatsInfinite типа как в usecase,
+    // если бы была прям чистешая реализация clean architecture
+    return data.map((item) => mapCatImageDtoToDomain(item, false));
   }
 }

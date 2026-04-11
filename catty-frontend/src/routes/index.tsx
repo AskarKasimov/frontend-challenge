@@ -18,7 +18,7 @@ function Index() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useCatsQuery(catsRepository, 15);
+  } = useCatsQuery(catsRepository, favoritesRepository, 15);
 
   const { mutate: toggleFavorite } = useFavoriteMutation(favoritesRepository);
 
