@@ -1,17 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useRef } from "react";
 import HeartSvg from "@/assets/heart.svg?react";
-import { CatsRepositoryImpl } from "@/data/repository/CatsRepositoryImpl";
-import { FavoritesLocalStorageRepository } from "@/data/repository/FavoritesLocalStorageRepository";
+import { useRepositories } from "@/shared/di/repositoryDI";
 import { useCatsQuery } from "@/state/useCatsInfiniteQuery";
 import { useFavoriteMutation } from "@/state/useFavoriteMutation";
 import { Card, Grid } from "@/ui/index.ts";
 
 export const Route = createFileRoute("/")({ component: Index });
-const catsRepository = new CatsRepositoryImpl();
-const favoritesRepository = new FavoritesLocalStorageRepository();
 
 function Index() {
+  const { catsRepository, favoritesRepository } = useRepositories();
+
   const {
     data,
     isLoading,
