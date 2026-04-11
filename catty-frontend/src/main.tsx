@@ -5,7 +5,13 @@ import { createRoot } from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import { RepositoriesProvider } from "./shared/di/repositoryDI";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const router = createRouter({
   routeTree,
