@@ -1,3 +1,4 @@
+.env
 # Logs
 logs
 *.log
@@ -11,9 +12,12 @@ node_modules
 dist
 dist-ssr
 *.local
+.tanstack
+routeTree.gen.ts
 
 # Editor directories and files
 .vscode/*
+!.vscode/settings.json
 !.vscode/extensions.json
 .idea
 .DS_Store

@@ -1,0 +1,11 @@
+services:
+  frontend:
+    build:
+      context: ./catty-frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://api.thecatapi.com/v1}
+        VITE_API_KEY: ${VITE_API_KEY}
+        VITE_BASE_PATH: ${VITE_BASE_PATH:-/}
+    ports:
+      - "3000:3000"
