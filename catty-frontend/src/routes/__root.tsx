@@ -22,7 +22,7 @@ function RootComponent() {
   const currentPath = routerState.location.pathname;
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "var(--ui-bg)" }}>
+    <div className="app-container">
       <Header>
         <Tabs>
           <Tab

@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import HeartSvg from "@/assets/heart.svg?react";
 import { useRepositories } from "@/shared/di/repositoryDI";
+import { useInfiniteScroll } from "@/shared/hook/useInfiniteScroll";
 import { useCatsQuery } from "@/state/useCatsInfiniteQuery";
 import { useFavoriteMutation } from "@/state/useFavoriteMutation";
 import { Card, Grid } from "@/ui/index.ts";
@@ -24,26 +24,11 @@ function Index() {
 
   const { mutate: toggleFavorite } = useFavoriteMutation(favoritesRepository);
 
-  const observer = useRef<IntersectionObserver | null>(null);
-
-  const observerTarget = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (isFetchingNextPage) return;
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting && hasNextPage) {
-            fetchNextPage();
-          }
-        },
-        { rootMargin: "100px" },
-      );
-
-      if (node) observer.current.observe(node);
-    },
-    [isFetchingNextPage, hasNextPage, fetchNextPage],
-  );
+  const observerTarget = useInfiniteScroll({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
   if (isLoading) return <div>{t("loading")}</div>;
   if (isError) return <div>{t("errorLoading")}</div>;
@@ -66,16 +51,7 @@ function Index() {
         ))}
       </Grid>
 
-      <div
-        ref={observerTarget}
-        style={{
-          height: "50px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-        }}
-      >
+      <div ref={observerTarget} className="loader-container">
         {isFetchingNextPage && <span>{t("loadingMore")}</span>}
       </div>
     </>
