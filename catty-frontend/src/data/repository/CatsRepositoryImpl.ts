@@ -7,7 +7,6 @@ import { API_KEY, API_URL } from "@/shared/consts.ts";
 
 export class CatsRepositoryImpl implements ICatsRepository {
   async getAllCats(page: number, limit: number): Promise<CatImage[]> {
-    console.log(API_KEY);
     const response = await fetch(
       `${API_URL}/images/search?limit=${limit}&page=${page}&order=DESC`,
       {
