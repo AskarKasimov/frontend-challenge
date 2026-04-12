@@ -4,6 +4,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 import { RepositoriesProvider } from "./shared/di/repositoryDI";
+import "./i18n";
 
 const queryClient = new QueryClient({
   defaultOptions: {

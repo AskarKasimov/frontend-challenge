@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import HeartSvg from "@/assets/heart.svg?react";
 import { useRepositories } from "@/shared/di/repositoryDI";
 import { useFavoriteMutation } from "@/state/useFavoriteMutation";
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/favorites")({
 });
 
 function FavoritesRoute() {
+  const { t } = useTranslation();
   const { favoritesRepository } = useRepositories();
 
   const {
@@ -43,8 +45,8 @@ function FavoritesRoute() {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  if (isLoading) return <div>Загрузка...</div>;
-  if (isError) return <div>Произошла ошибка при загрузке котиков</div>;
+  if (isLoading) return <div>{t("loading")}</div>;
+  if (isError) return <div>{t("errorLoading")}</div>;
 
   const favoriteCats = data?.pages.flat() ?? [];
 
@@ -57,7 +59,7 @@ function FavoritesRoute() {
           color: "var(--ui-text)",
         }}
       >
-        У вас пока нет любимых котиков :(
+        {t("noFavoritesYet")}
       </div>
     );
   }
@@ -86,7 +88,7 @@ function FavoritesRoute() {
           marginTop: "20px",
         }}
       >
-        {isFetchingNextPage && <span>... загружаем еще котиков ...</span>}
+        {isFetchingNextPage && <span>{t("loadingMore")}</span>}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import {
   useNavigate,
   useRouterState,
 } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { Header } from "@/ui/Header/Header";
 import { Tab, Tabs } from "@/ui/index.ts";
 import { MainLayout } from "@/ui/MainLayout/MainLayout";
@@ -15,6 +16,7 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
@@ -27,13 +29,13 @@ function RootComponent() {
             active={currentPath === "/"}
             onClick={() => navigate({ to: "/" })}
           >
-            Все котики
+            {t("allCats")}
           </Tab>
           <Tab
             active={currentPath === "/favorites"}
             onClick={() => navigate({ to: "/favorites" })}
           >
-            Любимые котики
+            {t("favoriteCats")}
           </Tab>
         </Tabs>
       </Header>
