@@ -29,7 +29,7 @@ export const Card = ({
       <button
         type="button"
         className={`${styles.actionButton} ${isActionPressed ? styles.actionPressed : ""}`}
-        onClick={onActionPressed ? () => onActionPressed() : undefined}
+        onClick={() => onActionPressed?.()}
       >
         <ActionElement className={styles.icon} />
       </button>

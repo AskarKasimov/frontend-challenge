@@ -12,7 +12,7 @@ export const Tab = ({ children, active, onClick }: TabProps) => {
     <button
       type="button"
       className={`${styles.tab} ${active ? styles.tabActive : ""}`}
-      onClick={() => onClick}
+      onClick={() => onClick?.()}
     >
       {children}
     </button>

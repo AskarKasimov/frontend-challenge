@@ -23,7 +23,6 @@ const hashHistory = createHashHistory();
 const router = createRouter({
   routeTree,
   history: hashHistory,
-  defaultPreload: "intent",
   scrollRestoration: true,
 });
 
