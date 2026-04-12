@@ -38,17 +38,7 @@ function FavoritesRoute() {
   const favoriteCats = data?.pages.flat() ?? [];
 
   if (favoriteCats.length === 0) {
-    return (
-      <div
-        style={{
-          textAlign: "center",
-          padding: "40px",
-          color: "var(--ui-text)",
-        }}
-      >
-        {t("noFavoritesYet")}
-      </div>
-    );
+    return <div className="empty-state">{t("noFavoritesYet")}</div>;
   }
 
   return (
@@ -65,16 +55,7 @@ function FavoritesRoute() {
         ))}
       </Grid>
 
-      <div
-        ref={observerTarget}
-        style={{
-          height: "50px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-        }}
-      >
+      <div ref={observerTarget} className="loader-container">
         {isFetchingNextPage && <span>{t("loadingMore")}</span>}
       </div>
     </>

@@ -51,16 +51,7 @@ function Index() {
         ))}
       </Grid>
 
-      <div
-        ref={observerTarget}
-        style={{
-          height: "50px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-        }}
-      >
+      <div ref={observerTarget} className="loader-container">
         {isFetchingNextPage && <span>{t("loadingMore")}</span>}
       </div>
     </>
